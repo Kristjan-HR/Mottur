@@ -1,19 +1,27 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 export default function Home({
   images = [
-    //"/disabled-parking.png",
     "/driveway-small.png",
     "/driveway-big.png",
-    "/materials.jpeg"
+    "/materials.jpeg",
   ],
   intervalMs = 5000,
 }) {
   const [index, setIndex] = useState(0);
   const timeoutRef = useRef(null);
 
-  const prev = () => setIndex((i) => (i - 1 + images.length) % images.length);
-  const next = () => setIndex((i) => (i + 1) % images.length);
+  // Navigation functions
+  const prev = useCallback(
+    () => setIndex((i) => (i - 1 + images.length) % images.length),
+    [images.length]
+  );
+
+  const next = useCallback(
+    () => setIndex((i) => (i + 1) % images.length),
+    [images.length]
+  );
+
   const goTo = (i) => setIndex(i);
 
   // Auto-play
@@ -32,7 +40,7 @@ export default function Home({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [prev, next]);
 
   return (
     <div style={styles.container} aria-roledescription="carousel">
@@ -56,19 +64,11 @@ export default function Home({
         ))}
       </div>
 
-      <button
-        onClick={prev}
-        aria-label="Previous slide"
-        style={{ ...styles.arrow, left: 20 }}
-      >
+      <button onClick={prev} aria-label="Previous slide" style={{ ...styles.arrow, left: 20 }}>
         ‹
       </button>
 
-      <button
-        onClick={next}
-        aria-label="Next slide"
-        style={{ ...styles.arrow, right: 20 }}
-      >
+      <button onClick={next} aria-label="Next slide" style={{ ...styles.arrow, right: 20 }}>
         ›
       </button>
 
@@ -96,7 +96,6 @@ const styles = {
     position: "relative",
     width: "100%",
     aspectRatio: "16 / 9",
-    //height: "100vh",
     overflow: "hidden",
     background: "#000",
   },
