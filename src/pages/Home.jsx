@@ -11,7 +11,6 @@ export default function Home({
   const [index, setIndex] = useState(0);
   const timeoutRef = useRef(null);
 
-  // Navigation functions
   const prev = useCallback(
     () => setIndex((i) => (i - 1 + images.length) % images.length),
     [images.length]
@@ -24,7 +23,6 @@ export default function Home({
 
   const goTo = (i) => setIndex(i);
 
-  // Auto-play
   useEffect(() => {
     if (!intervalMs) return;
     clearTimeout(timeoutRef.current);
@@ -32,7 +30,6 @@ export default function Home({
     return () => clearTimeout(timeoutRef.current);
   }, [index, images.length, intervalMs]);
 
-  // Keyboard navigation
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "ArrowLeft") prev();
@@ -43,51 +40,60 @@ export default function Home({
   }, [prev, next]);
 
   return (
-    <div style={styles.container} aria-roledescription="carousel">
-      <div
-        style={{
-          ...styles.slidesWrapper,
-          width: `${images.length * 100}%`,
-          transform: `translateX(-${index * (100 / images.length)}%)`,
-        }}
-      >
-        {images.map((src, i) => (
-          <div
-            key={i}
-            style={{
-              ...styles.slide,
-              minWidth: `${100 / images.length}%`,
-              backgroundImage: `url(${src})`,
-            }}
-            aria-hidden={i !== index}
-          />
-        ))}
+    <>
+      <div style={styles.container} aria-roledescription="carousel">
+        <div
+          style={{
+            ...styles.slidesWrapper,
+            width: `${images.length * 100}%`,
+            transform: `translateX(-${index * (100 / images.length)}%)`,
+          }}
+        >
+          {images.map((src, i) => (
+            <div
+              key={i}
+              style={{
+                ...styles.slide,
+                minWidth: `${100 / images.length}%`,
+                backgroundImage: `url(${src})`,
+              }}
+              aria-hidden={i !== index}
+            />
+          ))}
+        </div>
+
+        <button onClick={prev} aria-label="Previous slide" style={{ ...styles.arrow, left: 20 }}>
+          ‹
+        </button>
+
+        <button onClick={next} aria-label="Next slide" style={{ ...styles.arrow, right: 20 }}>
+          ›
+        </button>
+
+        <div style={styles.dots}>
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              aria-current={i === index}
+              style={{
+                ...styles.dot,
+                background: i === index ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.4)",
+                transform: i === index ? "scale(1.1)" : "scale(1)",
+              }}
+            />
+          ))}
+        </div>
       </div>
-
-      <button onClick={prev} aria-label="Previous slide" style={{ ...styles.arrow, left: 20 }}>
-        ‹
-      </button>
-
-      <button onClick={next} aria-label="Next slide" style={{ ...styles.arrow, right: 20 }}>
-        ›
-      </button>
-
-      <div style={styles.dots}>
-        {images.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => goTo(i)}
-            aria-label={`Go to slide ${i + 1}`}
-            aria-current={i === index}
-            style={{
-              ...styles.dot,
-              background: i === index ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.4)",
-              transform: i === index ? "scale(1.1)" : "scale(1)",
-            }}
-          />
-        ))}
+      <div id="ecoWrapper">
+        <div>
+          <p>Upphitaðar mottur fyrir bílaplön, innkeyrslur, göngustíga og garðsvæði</p>
+          <p>Tilvalið fyrir heimili, stofnanir og fyrirtæki</p>
+        </div>
+        <img alt="Bræðslumotta með mismunandi tegundum efna innan grindar" src="/motta-marglita.webp" />
       </div>
-    </div>
+    </>
   );
 }
 

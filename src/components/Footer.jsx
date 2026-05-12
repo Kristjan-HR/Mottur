@@ -16,10 +16,22 @@ export default function Footer() {
       </div>
       <div>
         <h4>Fylgdu okkur</h4>
-        <nav className="socials" aria-label="Samfélagsmiðlar">
-          <a href="https://facebook.com" aria-label="Facebook">Facebook</a>
-          <a href="https://instagram.com" aria-label="Instagram">Instagram</a>
-          <a href="https://twitter.com" aria-label="Twitter">Twitter</a>
+        <nav className="socials">
+          <a href="https://instagram.com">
+            <div className="wrapper-instagram">
+              <div>Instagram</div>
+            </div>
+          </a>
+          <a href="https://tiktok.com">
+            <div className="wrapper-tiktok">
+              <div>TikTok</div>
+            </div>
+          </a>
+          <a href="https://facebook.com">
+            <div className="wrapper-facebook">
+              <div>Facebook</div>
+            </div>
+          </a>
         </nav>
       </div>
     </footer>
