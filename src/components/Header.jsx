@@ -8,6 +8,7 @@ export default function Header() {
         <img src={logo} className="logo" alt="Company logo" />
       </Link>
       <nav>
+        <Link to="/">Heim</Link>
         <Link to="/tilbod">Vörutilboð</Link>
         <Link to="/um-okkur">Um okkur</Link>
         <Link to="/hafa-samband">Hafa samband</Link>
